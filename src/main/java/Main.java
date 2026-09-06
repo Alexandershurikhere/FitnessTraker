@@ -1,31 +1,34 @@
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException {
         WorkoutSession workoutSession=new WorkoutSession();
+        Dashboard dashboard=new Dashboard(workoutSession);
         HeartRateSensor heartRateSensor=new HeartRateSensor(workoutSession);
         StepsSensor stepsSensor=new StepsSensor(workoutSession);
         CaloriesSensor caloriesSensor=new CaloriesSensor(workoutSession);
 
-
-        Thread t1=new Thread(heartRateSensor);
+        Thread t1=new Thread(dashboard);
         Thread t2=new Thread(stepsSensor);
-        Thread t3=new Thread(caloriesSensor);
+        Thread t3=new Thread(heartRateSensor);
+        Thread t4=new Thread(caloriesSensor);
         t1.start();
         t2.start();
         t3.start();
+        t4.start();
 
-        for(int i=0;i<10;i++){
-            System.out.println("HeartRate: "+workoutSession.getCurrentHeartRate());
-            System.out.println("Steps: "+workoutSession.getSteps());
-            System.out.println("Calories: "+ workoutSession.getCalories());
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        Thread.sleep(15000);
         heartRateSensor.stop();
-        stepsSensor.stop();
         caloriesSensor.stop();
+        dashboard.stop();
+        stepsSensor.stop();
+        t1.join();
+        t2.join();
+        t3.join();
+        t4.join();
+
+
+
+
+
 
 
     }
