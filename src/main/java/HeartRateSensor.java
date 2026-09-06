@@ -11,7 +11,16 @@ public class HeartRateSensor implements Runnable{
         flag=false;
 
     }
-
+     int calculateNewHeartRate(int current, int delta) {
+        int newValue = current + delta;
+        if (newValue > 180) {
+            newValue -= 15;
+        }
+        if (newValue < 60) {
+            newValue += 15;
+        }
+        return newValue;
+    }
 
     @Override
     public void run() {
@@ -20,14 +29,8 @@ public class HeartRateSensor implements Runnable{
        while (flag){
            int current = workoutSession.getCurrentHeartRate();
            int delta = random.nextInt(11) - 5;
-           int newValue = current + delta;
-           if(newValue>180){
-                newValue -=15;
+          int newValue= calculateNewHeartRate(current,delta);
 
-           }
-           if(newValue<60){
-               newValue+=15;
-           }
            workoutSession.setCurrentHeartRate(newValue);
            try {
                Thread.sleep(1000);
