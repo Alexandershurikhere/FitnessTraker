@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         WorkoutSession workoutSession=new WorkoutSession();
@@ -24,6 +26,15 @@ public class Main {
         t2.join();
         t3.join();
         t4.join();
+        List<Integer> history=workoutSession.getHeartRateHistorySnapshot();
+        WorkStatistic workStatistic=new WorkStatistic();
+        double average=workStatistic.getAvaregeHeartRate(history);
+        int max=workStatistic.getMaxHeartRate(history);
+        int count=workStatistic.getDangerZone(history);
+
+        System.out.println("Среднее:"+average);
+        System.out.println("Максимум: "+ max);
+        System.out.println("Кол-во: "+ count);
 
 
 
